@@ -4,9 +4,7 @@
 #include <string>
 using namespace std;
 
-/*
-
-My Program Logic:
+/* 
 Read the frame and reference string from the input
 store the number of frames 
 Print the reference string
@@ -19,15 +17,19 @@ step 4: if the page is not in the current frame push it to the frame
 step 5: if reach the number of frames, find the least recently used page and replace it with the new page
 step 6: keep track of the last used time of each page in the frame
 step 7: print the page replacement process and the number of page faults
-*/
+step 8: repeat until all pages in the reference string are processed
 
+
+
+
+*/
 
 struct LRU{
     int numFrames;        // number of frames
     vector<int> frames;  // current frames in memory
     vector<int> pages;    // reference string of pages
     vector<int> trackPage; // to track the last used time of pages
-    int faults =0;           // number of page faults
+    int faults;           // number of page faults
 };
 
 // Read LRU data from standard input
@@ -42,7 +44,7 @@ void ReadFramesAndRefs(LRU &lru) {
     }
 }
 
-void PrintLRU( LRU &lru) {
+void PrintLRU(const LRU &lru) {
     for (size_t i = 0; i < lru.pages.size(); ++i) {
         cout << lru.pages[i];
         if (i + 1 < lru.pages.size()) cout << ' ';
@@ -107,17 +109,19 @@ void ReplacePages(LRU &lru) {
         }
 
         // step 7: print the page replacement process
-        cout << "After accessing " << page << " : ";
+        cout << "time step " << time << " : ";
         for (int i = 0; i < lru.numFrames; ++i) {
-            if (frames[i] == -1) cout << "- ";
+            if (frames[i] == -1) cout << " ";
             else cout << frames[i] << " ";
         }
-        
+        cout << '\n';
     }
 
     // step 7 (continued): print number of page faults
-    cout << "Total page faults = " << lru.faults << endl;
+    cout << "total number of page faults = " << lru.faults << endl;
 }
+
+
 
 
 
@@ -127,6 +131,7 @@ int main() {
     ReadFramesAndRefs(lru);
     PrintLRU(lru);
     ReplacePages(lru);
+
 
 
 
